@@ -126,3 +126,7 @@
   100% { opacity: 1; transform: translateY(0); }
 }
 .animate-float-up { animation: float-up 0.8s ease-out both; }
+
+#lovable-badge{
+   display:none !important;
+}
