@@ -1,7 +1,7 @@
-import { CtaButton } from "@/components/CtaButton";
 import heroBg from "@/assets/hero-landscape.jpg";
 import bundle from "@/assets/product-bundle.png";
 import { Star } from "lucide-react";
+import { trackEvent } from "@/lib/tracking";
 
 export const Hero = () => {
   return (
@@ -62,13 +62,11 @@ export const Hero = () => {
             target="_blank"
             rel="noopener noreferrer"
             onClick={() => {
-              import("@/lib/tracking").then((m) =>
-                m.trackEvent("InitiateCheckout", {
-                  value: 9.9,
-                  currency: "USD",
-                  contentName: "Código Divino - Hero",
-                })
-              );
+              void trackEvent("InitiateCheckout", {
+                value: 9.9,
+                currency: "USD",
+                contentName: "Código Divino - Hero",
+              });
             }}
             className="block w-full"
           >
@@ -79,11 +77,6 @@ export const Hero = () => {
           <p className="mt-3 text-xs text-primary-foreground/70">
             🔒 Acceso 100% digital · Entrega inmediata
           </p>
-        </div>
-
-        {/* Hidden but kept for possible reuse */}
-        <div className="hidden">
-          <CtaButton />
         </div>
       </div>
     </section>
