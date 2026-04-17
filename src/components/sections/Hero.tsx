@@ -18,13 +18,13 @@ export const Hero = () => {
       <div className="absolute inset-0 bg-gradient-to-b from-black/70 via-primary/60 to-background" />
       <div className="absolute inset-0 bg-radiant" />
 
-      <div className="container relative z-10 flex flex-col items-center px-4 py-12 text-center text-primary-foreground md:py-20">
+      <div className="container relative z-10 flex flex-col items-center px-4 py-10 text-center text-primary-foreground md:py-20">
         {/* Title */}
-        <h1 className="font-serif text-4xl font-black leading-none tracking-wide md:text-6xl animate-float-up">
+        <h1 className="font-serif text-3xl font-black leading-none tracking-wide sm:text-4xl md:text-6xl animate-float-up">
           <span className="text-gradient-gold">CÓDIGO DIVINO</span>
         </h1>
 
-        <h2 className="mt-4 max-w-3xl font-serif text-xl font-extrabold uppercase leading-tight tracking-wide md:text-3xl animate-float-up">
+        <h2 className="mt-4 max-w-3xl font-serif text-lg font-extrabold uppercase leading-tight tracking-wide sm:text-xl md:text-3xl animate-float-up">
           Comprende la Biblia de principio a fin con claridad, profundidad y poder espiritual
         </h2>
 
@@ -70,7 +70,7 @@ export const Hero = () => {
             }}
             className="block w-full"
           >
-            <button className="w-full rounded-full bg-success px-6 py-5 text-base font-extrabold uppercase tracking-wide text-success-foreground shadow-elegant transition-all hover:scale-[1.02] hover:brightness-110 animate-pulse-gold md:text-lg md:py-6">
+            <button className="w-full rounded-full bg-success px-4 py-4 text-sm font-extrabold uppercase tracking-wide text-success-foreground shadow-elegant transition-all hover:scale-[1.02] hover:brightness-110 animate-pulse-gold sm:text-base sm:py-5 md:text-lg md:py-6">
               Quiero comprender la Biblia
             </button>
           </a>
