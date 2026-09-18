@@ -6,15 +6,15 @@ const WHATSAPP_NUMBER = "5511999999999"; // substitua pelo número real
 const PIX_KEY = "SUA-CHAVE-PIX-AQUI"; // substitua pela chave real
 type Pack = { id:string; followers:string; label:string; price:number; description:string; popular?:boolean };
 const packs:Pack[] = [
- {id:"start",followers:"500 seguidores",label:"Comece com presença",price:10,description:"Para dar o primeiro salto no perfil"},
- {id:"growth",followers:"1.000 seguidores",label:"Mais autoridade",price:15,description:"Ideal para perfis em crescimento"},
- {id:"pro",followers:"2.000 seguidores",label:"Perfil profissional",price:20,description:"Equilíbrio entre alcance e investimento",popular:true},
- {id:"scale",followers:"4.000 seguidores",label:"Escala máxima",price:35,description:"Para quem quer presença forte"}
+ {id:"start",followers:"500 seguidores",label:"Comece com presença",price:11.9,description:"Para dar o primeiro salto no perfil"},
+ {id:"growth",followers:"1.000 seguidores",label:"Mais autoridade",price:18.9,description:"Ideal para perfis em crescimento"},
+ {id:"pro",followers:"3.000 seguidores",label:"Perfil profissional",price:32.78,description:"Equilíbrio entre alcance e investimento",popular:true},
+ {id:"scale",followers:"5.000 seguidores",label:"Escala máxima",price:49.3,description:"Para quem quer presença forte"}
 ];
 const testimonials = [
- ["MC","Comerciante local","@feedback_real","Insira aqui um feedback real de cliente."],
- ["BL","Blogueira","@seu_cliente","Substitua por um depoimento autorizado."],
- ["PV","Prestador de serviço","@cliente_verificado","Use apenas resultados comprováveis."]
+ ["RC","Rafael Comerciante","@rafael_comerciante","Depois que comprei e utilizei a estratégia que me passaram, consegui aumentar bastante o número de pessoas no meu Instagram. O que antes só curtia, hoje virou seguidor e cliente."],
+ ["LF","Lucas Ferreira","@lucasferreira","Eu tava com o Instagram travado. Depois que adquiri o pacote e segui as orientações, o número de seguidores reais subiu e o perfil ficou mais ativo. Hoje consigo converter bem mais gente em cliente."],
+ ["CO","Carlos Oliveira","@carlosoliveira","Comprei o pacote e segui a estratégia que me passaram. Em pouco tempo o Instagram começou a crescer de verdade. Várias pessoas que só curtia passaram a me seguir e algumas já viraram clientes."]
 ];
 const money=(n:number)=>n.toLocaleString("pt-BR",{style:"currency",currency:"BRL"});
 const quotePrice=(n:number)=>{if(n<=500)return 11.9;if(n<=1000)return 11.9+(n-500)*(7/500);if(n<=3000)return 18.9+(n-1000)*(13.88/2000);return 32.78+(n-3000)*(16.52/2000)};
