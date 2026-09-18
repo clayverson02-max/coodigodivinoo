@@ -22,7 +22,7 @@ const testimonials:Array<[string,string,string,string]> = [
 
 const money=(n:number)=>n.toLocaleString("pt-BR",{style:"currency",currency:"BRL"});
 const quotePrice=(n:number)=>{if(n<=500)return 11.9;if(n<=1000)return 11.9+(n-500)*(7/500);if(n<=3000)return 18.9+(n-1000)*(13.88/2000);return 32.78+(n-3000)*(16.52/2000)};
-const hasBonus=(p:Pack)=>Number(p.followers.replace(/\\D/g,""))>1000;
+const hasBonus=(p:Pack)=>Number(p.followers.replace(/\D/g,""))>1000;
 
 const benefitData: Array<[typeof Users, string, string]> = [[Users,"Autoridade instantânea","Presença compatível com quem já atua no mercado."],[ShieldCheck,"Mais confiança do público","Reduza a sensação de risco na hora da compra."],[TrendingUp,"Efeito manada","Mais prova social ajuda novos visitantes a acompanhar."],[Zap,"Perfil estabelecido","Deixe seu Instagram mais pronto para vender."]];
 
