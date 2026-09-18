@@ -2,7 +2,7 @@
 // Fires deduplicated events using the same event_id as the browser pixel.
 import { corsHeaders } from "https://esm.sh/@supabase/supabase-js@2.95.0/cors";
 
-const PIXEL_ID = "889171274167422";
+const PIXEL_ID = "2149847235657959";
 const ACCESS_TOKEN = Deno.env.get("META_CAPI_ACCESS_TOKEN");
 const TEST_EVENT_CODE = Deno.env.get("META_CAPI_TEST_EVENT_CODE"); // optional
 
