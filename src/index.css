@@ -64,3 +64,5 @@ body{font-family:"Montserrat",Arial,sans-serif;font-size:16px;line-height:1.68;f
 .section-heading h2,.pain-section h2,.truth-section h2,.offer-section h2,.final-section h2,.coach-copy h2{line-height:1.12}
 .emotion-row span,.attempt-list li,.no-need span,.offer-deliverables li,.choice-card p,.faq-list summary{font-weight:700}
 @media(max-width:560px){body{font-size:16px}.sales-hero h1{font-size:2.3rem;line-height:1.08}.lead,.pain-section .narrow-shell>p,.truth-section .truth-grid>div>p,.section-heading>p,.deliverables p,.platform-showcase p,.average-result p,.proof-copy p,.steps-grid-new p,.final-section p{font-size:15px;line-height:1.68}.pain-section h2,.truth-section h2,.section-heading h2,.offer-section h2,.final-section h2,.coach-copy h2{font-size:2.05rem;line-height:1.12}}
+
+.cell-visual img{width:100%;height:100%;object-fit:cover}.cell-visual{border-radius:2px}.cell-visual:after{position:absolute;inset:0;background:linear-gradient(90deg,hsl(var(--ink)/.1),transparent 55%,hsl(var(--coral)/.08));content:"";pointer-events:none}

@@ -168,7 +168,7 @@ export default function Index() {
               <p>Sin atacar esas células + estimular el músculo en el orden correcto, el resultado tarda meses… o nunca llega.</p>
             </div>
             <div className="truth-card">
-              <div className="cell-visual"><span className="cell cell-one" /><span className="cell cell-two" /><span className="cell cell-three" /><Flame /></div>
+              <div className="cell-visual"><img src="/celulas-grasa.png" alt="Ilustración de células de grasa localizadas" width="616" height="376" loading="lazy" /></div>
               <h3>Receta + estímulo muscular</h3>
               <p>Dos acciones trabajando en sinergia, en la secuencia correcta.</p>
               <div className="truth-arrow"><ArrowRight /><strong>Célula activada</strong><ArrowRight /><strong>Músculo estimulado</strong></div>
