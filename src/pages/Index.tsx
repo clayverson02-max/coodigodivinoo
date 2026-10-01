@@ -92,7 +92,7 @@ function CheckoutButton() {
         rel="noopener noreferrer"
         onClick={() => void trackEvent("InitiateCheckout", { value: 6.5, currency: "USD", contentName: "Plataforma Ivone Silva" })}
       >
-        <span>{label}</span><ArrowRight size={20} />
+        <span>QUIERO MI ACCESO POR $6,50 AHORA</span><ArrowRight size={20} />
       </a>
     </Button>
   );
