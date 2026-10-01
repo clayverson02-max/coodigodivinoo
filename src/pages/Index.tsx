@@ -235,7 +235,7 @@ export default function Index() {
         <section className="coach-section section-space" id="ivone">
           <div className="page-shell coach-grid">
             <div className="coach-media">
-              <img src="/ivone-coach.png" alt="Ivone Silva, especialista en entrenamiento y recetas naturales" width="700" height="933" loading="lazy" />
+              <img src="/ivone-coach-actual.png" alt="Ivone Silva, especialista en entrenamiento y recetas naturales" width="700" height="933" loading="lazy" />
               <span>IVONE SILVA · MÉTODO COMPLETO</span>
             </div>
             <div className="coach-copy">
@@ -269,6 +269,21 @@ export default function Index() {
             </div>
             <div className="no-need"><span>Sin suplemento caro</span><span>Sin gimnasio</span><span>Sin dieta restrictiva</span></div>
             <p className="only-follow">Solo necesitas seguir lo que ya está organizado para ti.</p>
+          </div>
+        </section>
+
+
+        <section className="desire-section section-space">
+          <div className="page-shell desire-grid">
+            <div className="desire-media">
+              <img src="/autoestima-feminina.png" alt="Mujer midiendo su cuerpo y visualizando su transformación" width="602" height="604" loading="lazy" />
+            </div>
+            <div className="desire-copy">
+              <span className="section-number">VUELVE A SENTIRTE SEGURA</span>
+              <h2>No se trata solo de cambiar tu cuerpo. Se trata de volver a reconocerte.</h2>
+              <p>Dejar de esconderte. Vestir lo que quieres. Mirarte al espejo y sentir que estás cuidando de ti, con un método claro y una plataforma creada para acompañarte.</p>
+              <p><strong>Tu autoestima no tiene que esperar a que encuentres otro método.</strong> Empieza con una rutina organizada, recetas en vídeo y entrenamientos que puedes hacer en casa.</p>
+            </div>
           </div>
         </section>
 
