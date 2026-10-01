@@ -134,7 +134,7 @@ export default function Index() {
             <div className="vsl-block">
               <div className="vsl-kicker"><Play size={14} /> Mira cómo funciona la plataforma</div>
               <video className="hero-vsl" controls playsInline preload="metadata" poster={heroImage} aria-label="Mini VSL explicando la plataforma Ivone Silva">
-                <source src="/WhatsApp Video 2026-10-01 at 02.10.29.mp4" type="video/mp4" />
+                <source src="/videos/vsl-ivone.mp4" type="video/mp4" />
                 Tu navegador no admite la reproducción de vídeo.
               </video>
               <p className="vsl-caption">Descubre cómo unir recetas y entrenamientos en vídeo puede cambiar tu forma de cuidar tu cuerpo.</p>
@@ -225,6 +225,33 @@ export default function Index() {
             <div className="section-heading centered"><span className="section-number">04 — RESULTADOS REALES</span><h2>Ellas dejaron de probar métodos aislados…</h2><p>Y utilizaron la plataforma completa. Desliza para ver registros compartidos por alumnas.</p></div>
             <div className="proof-scroll" aria-label="Resultados de alumnas en desplazamiento automático"><div className="proof-track">{[...proofImages, ...proofImages].map((image, i) => <figure key={`${image.src}-${i}`}><div className="proof-image-wrap"><img src={image.src} alt={image.alt} loading="lazy" /><span>{image.label}</span></div><figcaption><div>{Array.from({ length: 5 }).map((_, star) => <Star key={star} size={14} fill="currentColor" />)}</div><strong>Registro de alumna {String((i % proofImages.length) + 1).padStart(2, "0")}</strong></figcaption></figure>)}</div></div>
                         <div className="proof-copy"><p>Estas mujeres no hicieron un milagro. Solo dejaron de probar métodos aislados y utilizaron la plataforma completa.</p><p>Volvieron a mirarse al espejo y sonreír. Volvieron a usar shorts. Volvieron a sentirse atractivas.</p><strong>Y tú puedes ser la próxima.</strong></div>
+          </div>
+        </section>
+
+
+        <section className="video-results-section section-space">
+          <div className="page-shell">
+            <div className="section-heading centered">
+              <span className="section-number">MIRA LO QUE ES POSIBLE</span>
+              <h2>Cuando ves resultados así, también quieres empezar.</h2>
+              <p>Estas historias en vídeo muestran mujeres que decidieron dejar de improvisar y empezar a cuidar de sí con un método organizado.</p>
+            </div>
+            <div className="video-results-grid">
+              {[
+                ["/videos/resultado-01.mp4", "Un nuevo comienzo"],
+                ["/videos/resultado-02.mp4", "Más confianza"],
+                ["/videos/resultado-03.mp4", "Constancia que se nota"],
+                ["/videos/resultado-04.mp4", "El resultado que deseas"],
+              ].map(([src, label]) => (
+                <article className="result-video-card" key={src}>
+                  <div className="result-video-frame">
+                    <video src={src} autoPlay muted loop playsInline preload="metadata" controls aria-label={label} />
+                    <span>{label}</span>
+                  </div>
+                </article>
+              ))}
+            </div>
+            <p className="video-results-note">Tu transformación empieza cuando dejas de buscar soluciones sueltas y sigues un plan completo.</p>
           </div>
         </section>
 
