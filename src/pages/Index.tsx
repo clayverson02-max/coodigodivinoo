@@ -1,4 +1,4 @@
-import { useEffect, useState } from "react";
+import { useEffect, useRef, useState } from "react";
 import {
   ArrowRight,
   Check,
@@ -112,7 +112,48 @@ function OfferLink({ label }: { label: string }) {
 }
 
 export default function Index() {
+  const proofRef = useRef<HTMLDivElement>(null);
   const today = new Intl.DateTimeFormat("es", { day: "2-digit", month: "long" }).format(new Date());
+  useEffect(() => {
+    const container = proofRef.current;
+    if (!container) return;
+
+    let paused = false;
+    const advance = () => {
+      if (paused) return;
+      const firstCard = container.querySelector<HTMLElement>("figure");
+      if (!firstCard) return;
+
+      const gap = 16;
+      const step = firstCard.offsetWidth + gap;
+      const lastPosition = container.scrollWidth - container.clientWidth;
+      const nextPosition = container.scrollLeft + step;
+      const reduceMotion = window.matchMedia("(prefers-reduced-motion: reduce)").matches;
+
+      container.scrollTo({
+        left: nextPosition >= lastPosition - 8 ? 0 : nextPosition,
+        behavior: reduceMotion ? "auto" : "smooth",
+      });
+    };
+
+    const interval = window.setInterval(advance, 4200);
+    const pause = () => { paused = true; };
+    const resume = () => { paused = false; };
+
+    container.addEventListener("mouseenter", pause);
+    container.addEventListener("mouseleave", resume);
+    container.addEventListener("touchstart", pause, { passive: true });
+    container.addEventListener("touchend", resume, { passive: true });
+
+    return () => {
+      window.clearInterval(interval);
+      container.removeEventListener("mouseenter", pause);
+      container.removeEventListener("mouseleave", resume);
+      container.removeEventListener("touchstart", pause);
+      container.removeEventListener("touchend", resume);
+    };
+  }, []);
+
   return (
     <div className="sales-page">
       <div className="today-bar">
@@ -215,7 +256,7 @@ export default function Index() {
         <section className="proof-section section-space" id="resultados">
           <div className="page-shell">
             <div className="section-heading centered"><span className="section-number">04 — RESULTADOS REALES</span><h2>Ellas dejaron de probar métodos aislados…</h2><p>Y utilizaron la plataforma completa. Desliza para ver registros compartidos por alumnas.</p></div>
-            <div className="proof-scroll">{proofImages.map((image, i) => <figure key={image.src}><div className="proof-image-wrap"><img src={image.src} alt={image.alt} loading="lazy" /><span>{image.label}</span></div><figcaption><div>{Array.from({ length: 5 }).map((_, star) => <Star key={star} size={14} fill="currentColor" />)}</div><strong>Registro de alumna {String(i + 1).padStart(2, "0")}</strong></figcaption></figure>)}</div>
+            <div ref={proofRef} className="proof-scroll" aria-label="Resultados de alumnas en desplazamiento automático">{proofImages.map((image, i) => <figure key={image.src}><div className="proof-image-wrap"><img src={image.src} alt={image.alt} loading="lazy" /><span>{image.label}</span></div><figcaption><div>{Array.from({ length: 5 }).map((_, star) => <Star key={star} size={14} fill="currentColor" />)}</div><strong>Registro de alumna {String(i + 1).padStart(2, "0")}</strong></figcaption></figure>)}</div>
             <div className="proof-copy"><p>Estas mujeres no hicieron un milagro. Solo dejaron de probar métodos aislados y utilizaron la plataforma completa.</p><p>Volvieron a mirarse al espejo y sonreír. Volvieron a usar shorts. Volvieron a sentirse atractivas.</p><strong>Y tú puedes ser la próxima.</strong></div>
           </div>
         </section>
