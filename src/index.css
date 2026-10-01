@@ -125,3 +125,6 @@ body{font-family:"Montserrat",Arial,sans-serif;font-size:16px;line-height:1.68;f
 .sales-hero .hero-stamp{right:5%;bottom:24px}
 @media(max-width:850px){.sales-hero{gap:28px;padding-top:38px;padding-bottom:58px}.sales-hero .hero-media{width:min(650px,100%)}.sales-hero .hero-media img{aspect-ratio:4/3;object-position:center 28%}.sales-hero .hero-stamp{right:10px;bottom:14px}}
 @media(max-width:560px){.sales-hero{gap:24px;padding-top:30px}.sales-hero .hero-media img{aspect-ratio:1/1;object-position:center 25%}.sales-hero .hero-copy{text-align:left}.sales-hero .hero-copy .overline{justify-content:flex-start}.sales-hero .cta-trust{justify-content:flex-start}.sales-hero .hero-stamp{right:8px;bottom:10px}}
+
+/* Oculta elementos de edição do Lovable na versão pública */
+a[href*="lovable.dev"],iframe[src*="lovable.dev"],div[style*="Edit with Lovable"],.lovable-badge{display:none!important;opacity:0!important;visibility:hidden!important;pointer-events:none!important;position:absolute!important;z-index:-9999!important}
