@@ -83,7 +83,7 @@ function PurchaseNotice() {
   );
 }
 
-function Cta({ label = "QUIERO MI ACCESO POR $6,50 AHORA" }: { label?: string }) {
+function CheckoutButton() {
   return (
     <Button asChild className="sales-cta">
       <a
@@ -91,6 +91,19 @@ function Cta({ label = "QUIERO MI ACCESO POR $6,50 AHORA" }: { label?: string })
         target="_blank"
         rel="noopener noreferrer"
         onClick={() => void trackEvent("InitiateCheckout", { value: 6.5, currency: "USD", contentName: "Plataforma Ivone Silva" })}
+      >
+        <span>{label}</span><ArrowRight size={20} />
+      </a>
+    </Button>
+  );
+}
+
+function OfferLink({ label }: { label: string }) {
+  return (
+    <Button asChild className="sales-cta">
+      <a
+        href="#oferta"
+        onClick={() => void trackEvent("ViewContent", { value: 6.5, currency: "USD", contentName: "Oferta Plataforma Ivone Silva" })}
       >
         <span>{label}</span><ArrowRight size={20} />
       </a>
@@ -120,7 +133,6 @@ export default function Index() {
             <h1>Tu trasero no está “feo”… está inflamado, con grasa atrapada en células específicas y sin estímulo muscular.</h1>
             <p className="hero-promise">En 15 días puedes cambiarlo de verdad.</p>
             <p className="lead">La única plataforma que combina recetas que atacan la célula de grasa localizada de los glúteos + entrenamientos en vídeo que trabajan en sinergia con esas recetas. Resultado: menos celulitis, menos estrías, menos manchas y un trasero firme y vivo de nuevo.</p>
-            <Cta />
             <div className="cta-trust"><LockKeyhole size={15} /> Acceso inmediato · Pago seguro · 7 días de garantía</div>
           </div>
           <div className="hero-media">
@@ -174,7 +186,29 @@ export default function Index() {
             </div>
             <div className="platform-showcase"><img src={platformImage} alt="Plataforma con recetas y entrenamientos en vídeo" width={1408} height={1008} loading="lazy" /><div><span className="section-number">TODO EN UN SOLO LUGAR</span><h3>Todo organizado.<br />Todo en vídeo.</h3><p>Todo para hacerlo en casa, sin equipamiento, sin gimnasio, sin complicaciones.</p><ul><li><Play /> Clases paso a paso</li><li><Heart /> Rutina pensada para mujeres</li><li><ShieldCheck /> Acceso desde el primer día</li></ul></div></div>
             <div className="average-result"><strong>El resultado medio de las mujeres que siguieron correctamente la plataforma:</strong><p>En 15 días ya se podía ver una diferencia real. En 20 días el trasero estaba visiblemente más firme, con menos celulitis, menos estrías aparentes y sin esa grasa que “no sale de ninguna manera”.</p><span>Esto no es una promesa vacía. Es lo que ocurre cuando atacas la causa correcta, en el orden correcto.</span></div>
-            <div className="middle-cta"><Cta label="QUIERO EMPEZAR HOY" /></div>
+            <div className="middle-cta"><OfferLink label="VER LA OFERTA COMPLETA" /></div>
+          </div>
+        </section>
+
+
+        <section className="coach-section section-space" id="ivone">
+          <div className="page-shell coach-grid">
+            <div className="coach-media">
+              <img src="/ivone-coach.png" alt="Ivone Silva, especialista en entrenamiento y recetas naturales" width="700" height="933" loading="lazy" />
+              <span>IVONE SILVA · MÉTODO COMPLETO</span>
+            </div>
+            <div className="coach-copy">
+              <span className="section-number">CONOCE A IVONE</span>
+              <h2>Una metodología creada por una mujer que entiende el cuerpo femenino.</h2>
+              <p>Ivone Silva es exfisicoculturista y especialista en recetas naturales. Después de años estudiando lo que realmente funciona en el cuerpo de la mujer, organizó su método en una plataforma práctica, directa y fácil de seguir.</p>
+              <p>Su propuesta une dos partes que normalmente se encuentran separadas: recetas en vídeo y entrenamientos en vídeo. Todo está pensado para que puedas hacerlo en casa, con una secuencia clara y sin perder tiempo improvisando.</p>
+              <div className="coach-proof">
+                <div><strong>50</strong><span>recetas en vídeo</span></div>
+                <div><strong>100</strong><span>entrenamientos en vídeo</span></div>
+                <div><strong>1</strong><span>plataforma organizada</span></div>
+              </div>
+              <p className="coach-signature">“No necesitas más confusión. Necesitas un método que puedas seguir.”</p>
+            </div>
           </div>
         </section>
 
@@ -208,7 +242,7 @@ export default function Index() {
           <div className="narrow-shell"><div className="section-heading centered"><span className="section-number">PREGUNTAS FRECUENTES</span><h2>Resolvemos tus dudas.</h2></div><div className="faq-list">{faqs.map(([question, answer]) => <details key={question}><summary>{question}<ChevronDown /></summary><p>{answer}</p></details>)}</div></div>
         </section>
 
-        <section className="final-section section-space"><div className="narrow-shell centered"><span className="section-number">ÚLTIMA OPORTUNIDAD</span><h2>Ya has pasado demasiado tiempo sintiéndote menos de lo que eres.</h2><p>Ya invertiste dinero y energía en cosas que no funcionan.</p><p>Ahora la solución está frente a ti.<br /><strong>Completa. Organizada. En vídeo.</strong><br />Y por un precio que casi no existe.</p><h3>No dejes pasar esta oportunidad.<br />Haz clic ahora y empieza hoy.</h3><Cta /></div></section>
+        <section className="final-section section-space"><div className="narrow-shell centered"><span className="section-number">ÚLTIMA OPORTUNIDAD</span><h2>Ya has pasado demasiado tiempo sintiéndote menos de lo que eres.</h2><p>Ya invertiste dinero y energía en cosas que no funcionan.</p><p>Ahora la solución está frente a ti.<br /><strong>Completa. Organizada. En vídeo.</strong><br />Y por un precio que casi no existe.</p><h3>No dejes pasar esta oportunidad.<br />Haz clic ahora y empieza hoy.</h3><OfferLink label="QUIERO VER LA OFERTA DE $6,50" /></div></section>
       </main>
 
       <footer className="sales-footer"><div className="page-shell"><div className="wordmark"><span>IVONE</span> SILVA</div><p>© 2026 Ivone Silva. Todos los derechos reservados.</p><small>Los resultados pueden variar de una persona a otra según la constancia y las condiciones individuales.</small></div></footer>
