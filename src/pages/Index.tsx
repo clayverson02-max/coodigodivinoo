@@ -1,52 +1,218 @@
-import { useEffect, useMemo, useState } from "react";
-import { ArrowRight, Check, CheckCircle2, Clock3, Copy, Instagram, MessageCircle, ShieldCheck, Sparkles, Star, TrendingUp, Users, X, Zap } from "lucide-react";
+import { useEffect, useState } from "react";
+import {
+  ArrowRight,
+  Check,
+  ChevronDown,
+  Clock3,
+  Dumbbell,
+  Flame,
+  Heart,
+  Leaf,
+  LockKeyhole,
+  Play,
+  ShieldCheck,
+  Sparkles,
+  Star,
+  X,
+} from "lucide-react";
+import { Button } from "@/components/ui/button";
+import { CHECKOUT_URL } from "@/config/links";
 import { trackEvent } from "@/lib/tracking";
-import fotoRafael from "@/assets/cliente-rafael.png.asset.json";
-import fotoLucas from "@/assets/cliente-lucas.png.asset.json";
-import fotoCarlos from "@/assets/cliente-carlos.png.asset.json";
+import heroImage from "@/assets/gluteos-hero.jpg";
+import platformImage from "@/assets/plataforma-balance.jpg";
+import resultOne from "@/assets/resultado-aluna-1.png.asset.json";
+import resultTwo from "@/assets/resultado-aluna-2.png.asset.json";
+import resultThree from "@/assets/resultado-aluna-3.png.asset.json";
+import resultBeforeAfter from "@/assets/resultado-antes-depois-1.png.asset.json";
+import resultBefore from "@/assets/resultado-antes.png.asset.json";
+import resultAfter from "@/assets/resultado-depois.png.asset.json";
+import resultEvolution from "@/assets/resultado-evolucao.png.asset.json";
 
-const WHATSAPP_NUMBER = "5585997645990";
-const PIX_KEY = "advanceofseals01@gmail.com";
-type Pack = { id:string; followers:string; label:string; price:number; description:string; popular?:boolean };
-const packs:Pack[] = [
- {id:"start",followers:"500 seguidores",label:"Comece com presença",price:11.9,description:"Para dar o primeiro salto no perfil"},
- {id:"growth",followers:"1.000 seguidores",label:"Mais autoridade",price:18.9,description:"Ideal para perfis em crescimento"},
- {id:"pro",followers:"3.000 seguidores",label:"Perfil profissional",price:32.78,description:"Equilíbrio entre alcance e investimento",popular:true},
- {id:"scale",followers:"5.000 seguidores",label:"Escala máxima",price:49.3,description:"Para quem quer presença forte"}
+const notifications = [
+  ["María", "México"],
+  ["Camila", "Colombia"],
+  ["Sofía", "Chile"],
+  ["Valentina", "Argentina"],
+  ["Daniela", "Perú"],
 ];
-const testimonials:Array<[string,string,string,string]> = [
- [fotoRafael.url,"Rafael Comerciante","@rafael_comerciante","Depois que comprei e utilizei a estratégia que me passaram, consegui aumentar bastante o número de pessoas no meu Instagram. O que antes só curtia, hoje virou seguidor e cliente."],
- [fotoLucas.url,"Lucas Ferreira","@lucasferreira","Eu tava com o Instagram travado. Depois que adquiri o pacote e segui as orientações, o número de seguidores subiu e o perfil ficou mais ativo. Hoje consigo converter bem mais gente em cliente."],
- [fotoCarlos.url,"Carlos Oliveira","@carlosoliveira","Comprei o pacote e segui a estratégia que me passaram. Em pouco tempo o Instagram começou a crescer de verdade. Várias pessoas que só curtia passaram a me seguir e algumas já viraram clientes."]
+
+const proofImages = [
+  { src: resultBeforeAfter.url, alt: "Comparación de evolución enviada por una alumna", label: "Antes → Después" },
+  { src: resultEvolution.url, alt: "Evolución en tres etapas enviada por una alumna", label: "Evolución real" },
+  { src: resultBefore.url, alt: "Registro de antes enviado por una alumna", label: "Antes" },
+  { src: resultAfter.url, alt: "Registro de después enviado por una alumna", label: "Después" },
+  { src: resultOne.url, alt: "Resultado compartido por una alumna", label: "Resultado real" },
+  { src: resultTwo.url, alt: "Resultado compartido por una alumna", label: "Resultado real" },
+  { src: resultThree.url, alt: "Resultado compartido por una alumna", label: "Resultado real" },
 ];
 
-const money=(n:number)=>n.toLocaleString("pt-BR",{style:"currency",currency:"BRL"});
-const quotePrice=(n:number)=>{if(n<=500)return 11.9;if(n<=1000)return 11.9+(n-500)*(7/500);if(n<=3000)return 18.9+(n-1000)*(13.88/2000);return 32.78+(n-3000)*(16.52/2000)};
-const hasBonus=(p:Pack)=>Number(p.followers.replace(/\D/g,""))>1000;
+const faqs = [
+  ["¿Esto funciona aunque ya lo haya intentado todo?", "Sí. Porque aquí no haces solo recetas o solo ejercicio. Usas ambos juntos, en el orden correcto, atacando la célula de grasa específica."],
+  ["¿Necesito gimnasio o equipamiento?", "No. Todo se hace en casa, con el propio peso del cuerpo."],
+  ["¿Las recetas son difíciles?", "No. Son ingredientes que ya tienes en la cocina y vídeos paso a paso."],
+  ["¿Y si no me gusta?", "Tienes 7 días para probarlo. Si no notas diferencia, solicitas la devolución."],
+];
 
-const benefitData: Array<[typeof Users, string, string]> = [[Users,"Autoridade instantânea","Presença compatível com quem já atua no mercado."],[ShieldCheck,"Mais confiança do público","Reduza a sensação de risco na hora da compra."],[TrendingUp,"Efeito manada","Mais prova social ajuda novos visitantes a acompanhar."],[Zap,"Perfil estabelecido","Deixe seu Instagram mais pronto para vender."]];
+function PurchaseNotice() {
+  const [visible, setVisible] = useState(false);
+  const [index, setIndex] = useState(0);
 
-export default function Index(){
- const [chosen,setChosen]=useState<Pack|null>(null),[left,setLeft]=useState(40),[copied,setCopied]=useState(false),[customQty,setCustomQty]=useState(1500),[customerName,setCustomerName]=useState(""),[instagram,setInstagram]=useState(""),[profilePublic,setProfilePublic]=useState(false),[offerLeft,setOfferLeft]=useState(600);
- useEffect(()=>{if(!chosen||left<=0)return;const id=window.setInterval(()=>setLeft(v=>Math.max(0,v-1)),1000);return()=>window.clearInterval(id)},[chosen,left]);
- useEffect(()=>{const key="impulso-social-offer-deadline-v3";const saved=Number(window.sessionStorage.getItem(key));const initial=saved>0?saved:Math.floor(Date.now()/1000)+20;if(!saved)window.sessionStorage.setItem(key,String(initial));const tick=()=>{const remaining=Math.max(0,initial-Math.floor(Date.now()/1000));setOfferLeft(remaining);window.sessionStorage.setItem(key,String(initial));};tick();const id=window.setInterval(tick,1000);return()=>window.clearInterval(id)},[]);
- const timer=useMemo(()=>String(Math.floor(left/60)).padStart(2,"0")+":"+String(left%60).padStart(2,"0"),[left]);
- const offerTimer=useMemo(()=>String(Math.floor(offerLeft/60)).padStart(2,"0")+":"+String(offerLeft%60).padStart(2,"0"),[offerLeft]);
- const choose=(p:Pack)=>{setChosen(p);setLeft(40);setCopied(false);setCustomerName("");setInstagram("");setProfilePublic(false);trackEvent("InitiateCheckout",{value:p.price,currency:"BRL",contentName:p.followers})};
- const customPrice=quotePrice(customQty);
- const chooseCustom=()=>choose({id:"custom",followers:customQty.toLocaleString("pt-BR")+" seguidores",label:"Quantidade personalizada",price:customPrice,description:"Pacote calculado para o seu perfil"});
- const send=()=>{if(!chosen)return;const order="PED-"+Date.now().toString(36).toUpperCase().slice(-6);const msg=["*NOVO PEDIDO — IMPULSO SOCIAL*","","*Nº do pedido:* "+order,"*Pacote:* "+chosen.followers,"*Plano:* "+chosen.label,"*Valor:* "+money(chosen.price),"*Pagamento:* Pix","*Chave Pix:* "+PIX_KEY,"*Data:* "+new Date().toLocaleString("pt-BR"),"","*Dados do cliente:*","• Nome: "+customerName,"• Instagram: "+instagram,"• Perfil público: sim","",hasBonus(chosen)?"*Benefício:* Pedido acima de 1.000 seguidores — bônus e reposição automática por 10 dias.":"*Benefício:* Pacote de até 1.000 seguidores.","","Já fiz o pagamento e vou anexar o comprovante do Pix nesta conversa."].join("\n");trackEvent("Lead",{value:chosen.price,currency:"BRL",contentName:chosen.followers});window.open("https://wa.me/"+WHATSAPP_NUMBER+"?text="+encodeURIComponent(msg),"_blank","noopener,noreferrer")};
- return <div className="landing-page"><div className="scarcity-bar" role="status" aria-live="polite"><span className="scarcity-dot"/> <strong>{offerLeft>0?"Condição especial disponível nesta sessão":"Condição especial encerrada"}</strong><span className="scarcity-copy">{offerLeft>0?"Finalize agora para manter o valor exibido.":"Os valores podem ser atualizados."}</span>{offerLeft>0&&<span className="scarcity-timer">{offerTimer}</span>}</div>
-  <header className="site-header"><a className="brand" href="#inicio"><img className="logo-image" src="/impulso-social-logo.svg" alt="Impulso Social" /></a><a className="header-link" href="#como-funciona">Como funciona <ArrowRight size={15}/></a></header>
-  <main>
-   <section className="hero section-shell" id="inicio"><div><div className="eyebrow"><Sparkles size={15}/> Presença que transmite confiança</div><h1>Seu perfil ainda parece pequeno para quem está pronto para comprar?</h1><p className="hero-subtitle">No Instagram, a primeira impressão pesa. Aumente o volume de <strong>seguidores</strong> e faça seu perfil transmitir mais autoridade, confiança e presença.</p><button className="primary-button" onClick={()=>document.getElementById("pacotes")?.scrollIntoView({behavior:"smooth"})}>Quero aumentar minha credibilidade agora <ArrowRight size={19}/></button><div className="micro-proof"><ShieldCheck size={17}/> Entrega rápida <span>•</span> Suporte pelo WhatsApp <span>•</span> Sem pedir senha</div></div><div className="hero-visual"><div className="glow glow-one"/><div className="glow glow-two"/><div className="phone-card"><div className="phone-top"><span>9:41</span><span>● ● ●</span></div><div className="profile-row"><div className="avatar-gradient"><Instagram/></div><div><strong>@seuperfil</strong><small>Perfil comercial</small></div><span className="verified">✓</span></div><div className="profile-stats"><span><b>2.480</b> seguidores</span><span><b>186</b> seguindo</span><span><b>94</b> posts</span></div><div className="profile-actions"><span>Seguir</span><span>Mensagem</span></div><div className="mini-posts"><i/><i/><i/><i/></div><div className="growth-pill"><TrendingUp size={17}/><span><b>+32%</b><small>mais percepção de autoridade</small></span></div></div></div></section>
-   <section className="problem-section"><div className="section-shell"><div className="section-heading"><span className="section-kicker">O problema é percebido rápido</span><h2>Poucos seguidores podem fazer uma boa oferta parecer menos confiável.</h2><p>Antes de ler sua legenda, o cliente olha para o seu perfil e tira conclusões.</p></div><div className="problem-grid">{[["01","O cliente desconfia","Um perfil com pouco movimento pode gerar insegurança."],["02","Parece recém-criado","A falta de volume passa uma imagem de pouca experiência."],["03","A concorrência ganha espaço","O perfil mais estabelecido tende a conquistar atenção primeiro."]].map(x=><article className="problem-card" key={x[0]}><span>{x[0]}</span><h3>{x[1]}</h3><p>{x[2]}</p></article>)}</div></div></section>
-   <section className="benefits-section section-shell"><div className="section-heading"><span className="section-kicker">Mais presença no seu perfil</span><h2>Transforme o número de seguidores em uma primeira impressão mais forte.</h2></div><div className="benefits-grid">{benefitData.map(([I,t,d])=><article className="benefit-card" key={t as string}><div className="icon-box"><I size={22}/></div><h3>{t as string}</h3><p>{d as string}</p></article>)}</div></section>
-   <section className="social-section section-shell" id="depoimentos"><div className="section-heading"><span className="section-kicker">Prova social</span><h2>Quem aumenta a presença, comunica mais confiança.</h2><p>Clientes que aumentaram a presença do perfil e passaram a vender mais.</p></div><div className="testimonial-grid">{testimonials.map(x=><article className="testimonial-card" key={x[2]}><div className="testimonial-top"><img className="client-photo" src={x[0]} alt={x[1]} loading="lazy" /><div><strong>{x[1]}</strong><small>{x[2]}</small></div><Star className="stars" size={16} fill="currentColor"/></div><p>“{x[3]}”</p><span className="verified-label"><CheckCircle2 size={14}/> Cliente verificado</span></article>)}</div></section>
-   <section className="steps-section" id="como-funciona"><div className="section-shell"><div className="section-heading"><span className="section-kicker">Sem complicação</span><h2>Escolha, pague e envie seu pedido.</h2></div><div className="steps-grid">{[["01","Escolha seu pacote","Selecione a quantidade ideal."],["02","Pague via Pix","Copie a chave e pague pelo seu banco."],["03","Envie no WhatsApp","Envie comprovante e dados do perfil."]].map(x=><div className="step" key={x[0]}><span className="step-number">{x[0]}</span><div><h3>{x[1]}</h3><p>{x[2]}</p></div></div>)}</div></div></section>
-   <section className="packages-section section-shell" id="pacotes"><div className="section-heading"><span className="section-kicker">Escolha seu impulso</span><h2>Comece com o pacote ideal para o seu objetivo.</h2><p>Pagamento único. Atendimento direto. Sem fidelidade.</p></div><div className="package-grid">{packs.map(p=><article className={"package-card "+(p.popular?"popular":"")} key={p.id}>{p.popular&&<div className="popular-badge">MAIS VENDIDO</div>}<div className="package-icon"><Instagram size={20}/></div><span className="package-label">{p.label}</span><h3>{p.followers}</h3><p>{p.description}</p><div className="package-price">{money(p.price)}</div><button className={"package-button "+(p.popular?"primary-button":"")} onClick={()=>choose(p)}>Escolher este pacote <ArrowRight size={17}/></button><small><Check size={13}/> Seguidores</small><small><Check size={13}/> Suporte via WhatsApp</small>{p.price>=32.78&&<small><Check size={13}/> Bônus + reposição por 10 dias</small>}</article>)}</div></section><section className="calculator-section section-shell" id="calculadora"><div className="calculator-card"><div><span className="section-kicker">Quantidade personalizada</span><h2>Quer uma quantidade diferente?</h2><p>Escolha quantos seguidores brasileiros você quer e veja o valor na hora.</p><div className="calculator-input"><button type="button" className="qty-control" onClick={()=>setCustomQty(Math.max(500,customQty-100))} aria-label="Diminuir 100 seguidores">−</button><input type="number" inputMode="numeric" min="500" max="10000" step="100" value={customQty} onChange={e=>{const n=Number(e.target.value);if(Number.isFinite(n)&&n>=500)setCustomQty(Math.min(10000,Math.round(n/100)*100))}} onBlur={()=>setCustomQty(Math.min(10000,Math.max(500,Math.round(customQty/100)*100)))} aria-label="Quantidade de seguidores"/><button type="button" className="qty-control" onClick={()=>setCustomQty(Math.min(10000,customQty+100))} aria-label="Aumentar 100 seguidores">+</button><span>seguidores</span></div><div className="quick-amounts">{[500,1000,1500,3000,5000].map(n=><button key={n} className={customQty===n?"selected":""} onClick={()=>setCustomQty(n)}>{n.toLocaleString("pt-BR")}</button>)}</div></div><div className="calculator-result"><span>Seu valor estimado</span><strong>{money(customPrice)}</strong><small>Seguidores 100% brasileiros</small><button className="primary-button" onClick={chooseCustom}>Escolher esta quantidade <ArrowRight size={17}/></button></div></div></section>
-  </main>
-  <footer className="site-footer"><div className="section-shell footer-inner"><div className="brand"><img className="logo-image" src="/impulso-social-logo.svg" alt="Impulso Social" /></div><div className="footer-trust"><span><Zap size={16}/> Entrega rápida</span><span><MessageCircle size={16}/> Suporte via WhatsApp</span><span><Users size={16}/> Seguidores 100% brasileiros</span></div><p>© 2026 Impulso Social. Instagram é uma marca da Meta Platforms, Inc.</p></div></footer>
-  {chosen&&<div className="modal-backdrop" onClick={()=>setChosen(null)}><div className="payment-modal" role="dialog" aria-modal="true" onClick={e=>e.stopPropagation()}><button className="close-button" onClick={()=>setChosen(null)} aria-label="Fechar"><X size={20}/></button><div className="modal-icon"><Copy size={23}/></div><span className="section-kicker">Seu pedido</span><h2>{chosen.followers}</h2><div className="modal-price">{money(chosen.price)}</div><div className="pix-box"><div><small>Chave Pix — copiar e colar</small><strong>{PIX_KEY}</strong></div><button onClick={async()=>{await navigator.clipboard?.writeText(PIX_KEY);setCopied(true)}} aria-label="Copiar chave Pix">{copied?<Check size={18}/>:<Copy size={18}/>}</button></div><div className="order-fields"><label>Seu nome<input type="text" value={customerName} onChange={e=>setCustomerName(e.target.value)} placeholder="Digite seu nome" /></label><label>@ ou link do Instagram<input type="text" value={instagram} onChange={e=>setInstagram(e.target.value)} placeholder="@seuperfil ou link do perfil" /></label><label className="public-check"><input type="checkbox" checked={profilePublic} onChange={e=>setProfilePublic(e.target.checked)} /> Confirmo que o perfil está público e aberto para receber os seguidores.</label></div><div className="profile-warning"><ShieldCheck size={17}/><span><strong>Atenção:</strong> o perfil não pode estar privado. Perfis fechados não conseguem receber o pedido.</span></div><div className="benefit-notice"><Zap size={17}/><span>Pedidos acima de 1.000 seguidores recebem bônus e reposição automática caso haja queda dentro de 10 dias.</span></div><p className="payment-instruction">Após realizar o pagamento, aguarde a confirmação automática. Isso leva alguns instantes.</p><div className={"confirmation-timer "+(left===0?"done":"")}><Clock3 size={18}/>{left===0?"Pagamento pronto para confirmação":"Confirmando seu pagamento... "+timer}</div><button className="primary-button whatsapp-button" disabled={left>0||!customerName.trim()||!instagram.trim()||!profilePublic} onClick={send}><MessageCircle size={19}/> Enviar pedido no WhatsApp</button>{left>0&&<small className="wait-note">O botão será liberado ao final da confirmação.</small>}{left===0&&(!customerName.trim()||!instagram.trim()||!profilePublic)&&<small className="wait-note">Preencha seus dados e confirme que o perfil está público.</small>}</div></div>}
- </div>;
+  useEffect(() => {
+    const first = window.setTimeout(() => setVisible(true), 5000);
+    const rotate = window.setInterval(() => {
+      setVisible(false);
+      window.setTimeout(() => {
+        setIndex((current) => (current + 1) % notifications.length);
+        setVisible(true);
+      }, 450);
+    }, 10000);
+    return () => {
+      window.clearTimeout(first);
+      window.clearInterval(rotate);
+    };
+  }, []);
+
+  const current = notifications[index];
+  if (!current) return null;
+  return (
+    <aside className={`purchase-notice ${visible ? "is-visible" : ""}`} aria-live="polite">
+      <div className="notice-check"><Check size={16} /></div>
+      <div><strong>{current[0]} de {current[1]}</strong><span>acaba de asegurar su acceso</span></div>
+      <button type="button" onClick={() => setVisible(false)} aria-label="Cerrar aviso"><X size={15} /></button>
+    </aside>
+  );
+}
+
+function Cta({ label = "QUIERO MI ACCESO POR $6,50 AHORA" }: { label?: string }) {
+  return (
+    <Button asChild className="sales-cta">
+      <a
+        href={CHECKOUT_URL}
+        target="_blank"
+        rel="noopener noreferrer"
+        onClick={() => void trackEvent("InitiateCheckout", { value: 6.5, currency: "USD", contentName: "Plataforma Ivone Silva" })}
+      >
+        <span>{label}</span><ArrowRight size={20} />
+      </a>
+    </Button>
+  );
+}
+
+export default function Index() {
+  const today = new Intl.DateTimeFormat("es", { day: "2-digit", month: "long" }).format(new Date());
+  return (
+    <div className="sales-page">
+      <div className="today-bar">
+        <Clock3 size={16} />
+        <strong>Oferta disponible solo hoy, {today}</strong>
+        <span>por tiempo limitado</span>
+      </div>
+
+      <header className="sales-header page-shell">
+        <a href="#inicio" className="wordmark" aria-label="Inicio"><span>IVONE</span> SILVA</a>
+        <a href="#oferta" className="header-cta">Ver oferta <ArrowRight size={15} /></a>
+      </header>
+
+      <main>
+        <section className="sales-hero page-shell" id="inicio">
+          <div className="hero-copy">
+            <div className="overline"><Sparkles size={15} /> Método completo en vídeo</div>
+            <h1>Tu trasero no está “feo”… está inflamado, con grasa atrapada en células específicas y sin estímulo muscular.</h1>
+            <p className="hero-promise">En 15 días puedes cambiarlo de verdad.</p>
+            <p className="lead">La única plataforma que combina recetas que atacan la célula de grasa localizada de los glúteos + entrenamientos en vídeo que trabajan en sinergia con esas recetas. Resultado: menos celulitis, menos estrías, menos manchas y un trasero firme y vivo de nuevo.</p>
+            <Cta />
+            <div className="cta-trust"><LockKeyhole size={15} /> Acceso inmediato · Pago seguro · 7 días de garantía</div>
+          </div>
+          <div className="hero-media">
+            <img src={heroImage} alt="Mujer observando su cuerpo frente al espejo" width={1200} height={1408} fetchPriority="high" />
+            <div className="hero-stamp"><strong>15</strong><span>días para empezar a notar cambios</span></div>
+          </div>
+        </section>
+
+        <section className="pain-section section-space">
+          <div className="narrow-shell">
+            <span className="section-number">01 — LO QUE SIENTES</span>
+            <h2>Mírate al espejo ahora.<br />¿Qué sientes cuando ves tu trasero?</h2>
+            <div className="emotion-row"><span>¿Vergüenza?</span><span>¿Frustración?</span><span>¿Ganas de esconderte?</span></div>
+            <p>¿Esas ganas de esconderte con shorts largos, leggings negros o una falda larga?</p>
+            <p>Ya lo has intentado todo:</p>
+            <ul className="attempt-list">
+              <li><Check /> Gimnasio 5 veces por semana</li>
+              <li><Check /> Cremas carísimas</li>
+              <li><Check /> Dietas locas</li>
+              <li><Check /> Ejercicios de “glúteos en el gimnasio” que solo dejan las piernas cansadas</li>
+            </ul>
+            <div className="pain-callout"><span>¿Y el resultado?</span><p>El mismo trasero flácido, con celulitis de piel de naranja, estrías blancas o moradas y esa grasa rebelde que parece pegada.</p></div>
+          </div>
+        </section>
+
+        <section className="truth-section section-space">
+          <div className="page-shell truth-grid">
+            <div>
+              <span className="section-number">02 — LA VERDAD QUE NADIE TE CUENTA</span>
+              <h2>La mayoría de los métodos falla porque trata el síntoma, no la causa.</h2>
+              <p>La grasa localizada en los glúteos no desaparece solo con ejercicio.</p>
+              <p>Está atrapada en células específicas que necesitan ser “despertadas” y vaciadas.</p>
+              <p>Sin atacar esas células + estimular el músculo en el orden correcto, el resultado tarda meses… o nunca llega.</p>
+            </div>
+            <div className="truth-card">
+              <div className="cell-visual"><span className="cell cell-one" /><span className="cell cell-two" /><span className="cell cell-three" /><Flame /></div>
+              <h3>Receta + estímulo muscular</h3>
+              <p>Dos acciones trabajando en sinergia, en la secuencia correcta.</p>
+              <div className="truth-arrow"><ArrowRight /><strong>Célula activada</strong><ArrowRight /><strong>Músculo estimulado</strong></div>
+            </div>
+          </div>
+          <div className="narrow-shell emotional-copy"><p>Y mientras tanto, la autoestima se va. Te sientes menos mujer. Menos deseada. Menos segura.</p><strong>Eso duele. Y sabes que duele.</strong></div>
+        </section>
+
+        <section className="solution-section section-space" id="metodo">
+          <div className="page-shell">
+            <div className="section-heading centered"><span className="section-number">03 — LA SOLUCIÓN</span><h2>No es “otra receta casera”.<br />No es “otro entrenamiento de glúteos”.</h2><p>Es una plataforma completa creada por Ivone Silva —exfisicoculturista y especialista en recetas naturales— después de años estudiando lo que realmente funciona en el cuerpo de la mujer.</p></div>
+            <div className="deliverables">
+              <article><div className="feature-icon"><Leaf /></div><span>01</span><h3>50 recetas en vídeo</h3><p>Paso a paso, actúan directamente en las células de grasa localizada de los glúteos. No son “recetitas para adelgazar”. Son fórmulas con ingredientes de tu cocina para facilitar la eliminación de esa grasa específica.</p></article>
+              <article><div className="feature-icon"><Dumbbell /></div><span>02</span><h3>100 entrenamientos en vídeo</h3><p>Organizados en una secuencia inteligente. Mientras la receta ayuda a vaciar la célula de grasa, el ejercicio estimula el músculo para ocupar ese espacio, dejando el trasero más firme, redondo y “vivo”.</p></article>
+            </div>
+            <div className="platform-showcase"><img src={platformImage} alt="Plataforma con recetas y entrenamientos en vídeo" width={1408} height={1008} loading="lazy" /><div><span className="section-number">TODO EN UN SOLO LUGAR</span><h3>Todo organizado.<br />Todo en vídeo.</h3><p>Todo para hacerlo en casa, sin equipamiento, sin gimnasio, sin complicaciones.</p><ul><li><Play /> Clases paso a paso</li><li><Heart /> Rutina pensada para mujeres</li><li><ShieldCheck /> Acceso desde el primer día</li></ul></div></div>
+            <div className="average-result"><strong>El resultado medio de las mujeres que siguieron correctamente la plataforma:</strong><p>En 15 días ya se podía ver una diferencia real. En 20 días el trasero estaba visiblemente más firme, con menos celulitis, menos estrías aparentes y sin esa grasa que “no sale de ninguna manera”.</p><span>Esto no es una promesa vacía. Es lo que ocurre cuando atacas la causa correcta, en el orden correcto.</span></div>
+            <div className="middle-cta"><Cta label="QUIERO EMPEZAR HOY" /></div>
+          </div>
+        </section>
+
+        <section className="proof-section section-space" id="resultados">
+          <div className="page-shell">
+            <div className="section-heading centered"><span className="section-number">04 — RESULTADOS REALES</span><h2>Ellas dejaron de probar métodos aislados…</h2><p>Y utilizaron la plataforma completa. Desliza para ver registros compartidos por alumnas.</p></div>
+            <div className="proof-scroll">{proofImages.map((image, i) => <figure key={image.src}><div className="proof-image-wrap"><img src={image.src} alt={image.alt} loading="lazy" /><span>{image.label}</span></div><figcaption><div>{Array.from({ length: 5 }).map((_, star) => <Star key={star} size={14} fill="currentColor" />)}</div><strong>Registro de alumna {String(i + 1).padStart(2, "0")}</strong></figcaption></figure>)}</div>
+            <div className="proof-copy"><p>Estas mujeres no hicieron un milagro. Solo dejaron de probar métodos aislados y utilizaron la plataforma completa.</p><p>Volvieron a mirarse al espejo y sonreír. Volvieron a usar shorts. Volvieron a sentirse atractivas.</p><strong>Y tú puedes ser la próxima.</strong></div>
+          </div>
+        </section>
+
+        <section className="steps-section-new section-space">
+          <div className="page-shell">
+            <div className="section-heading"><span className="section-number">05 — CÓMO FUNCIONA</span><h2>Simple, en casa y a tu ritmo.</h2></div>
+            <div className="steps-grid-new">
+              {[['01','Accedes hoy','Entras en la plataforma el mismo día.'],['02','Sigues las recetas','Vídeos de 5–10 minutos al día.'],['03','Haces los entrenamientos','Sesiones cortas y eficaces en vídeo.'],['04','Notas el cambio','En 15 días empiezas a ver cómo cambia el espejo.']].map(([n,t,d]) => <article key={n}><span>{n}</span><h3>{t}</h3><p>{d}</p></article>)}
+            </div>
+            <div className="no-need"><span>Sin suplemento caro</span><span>Sin gimnasio</span><span>Sin dieta restrictiva</span></div>
+            <p className="only-follow">Solo necesitas seguir lo que ya está organizado para ti.</p>
+          </div>
+        </section>
+
+        <section className="offer-section section-space" id="oferta">
+          <div className="offer-shell">
+            <div className="offer-copy"><span className="offer-badge"><Flame size={15} /> SOLO 50 ACCESOS</span><h2>Tu momento de empezar es hoy.</h2><p>El valor normal de esta plataforma es <strong>$27,90</strong>. Pero Ivone liberó solo 50 accesos con un descuento agresivo:</p><div className="price"><del>$27,90</del><strong>$6,50</strong><span>pago único</span></div><p>Así es. Seis dólares con cincuenta. Menos que una merienda. Menos que cualquier crema que no soluciona nada.</p><Cta /><div className="cta-trust light"><LockKeyhole size={15} /> Compra segura · Acceso inmediato · Garantía de 7 días</div></div>
+            <div className="choice-card"><span>Tienes dos opciones ahora:</span><div><i>1</i><p>Seguir mirándote al espejo y sintiendo la misma frustración de siempre.</p></div><div className="selected-choice"><i>2</i><p>Garantizar tu acceso por <strong>$6,50</strong> y en 15–20 días ver por fin el trasero que mereces.</p></div><p className="urgency-note">Después de que se agoten los 50 cupos, el precio vuelve a la normalidad o la oferta desaparece.</p></div>
+          </div>
+        </section>
+
+        <section className="faq-section section-space">
+          <div className="narrow-shell"><div className="section-heading centered"><span className="section-number">PREGUNTAS FRECUENTES</span><h2>Resolvemos tus dudas.</h2></div><div className="faq-list">{faqs.map(([question, answer]) => <details key={question}><summary>{question}<ChevronDown /></summary><p>{answer}</p></details>)}</div></div>
+        </section>
+
+        <section className="final-section section-space"><div className="narrow-shell centered"><span className="section-number">ÚLTIMA OPORTUNIDAD</span><h2>Ya has pasado demasiado tiempo sintiéndote menos de lo que eres.</h2><p>Ya invertiste dinero y energía en cosas que no funcionan.</p><p>Ahora la solución está frente a ti.<br /><strong>Completa. Organizada. En vídeo.</strong><br />Y por un precio que casi no existe.</p><h3>No dejes pasar esta oportunidad.<br />Haz clic ahora y empieza hoy.</h3><Cta /></div></section>
+      </main>
+
+      <footer className="sales-footer"><div className="page-shell"><div className="wordmark"><span>IVONE</span> SILVA</div><p>© 2026 Ivone Silva. Todos los derechos reservados.</p><small>Los resultados pueden variar de una persona a otra según la constancia y las condiciones individuales.</small></div></footer>
+      <PurchaseNotice />
+    </div>
+  );
 }
