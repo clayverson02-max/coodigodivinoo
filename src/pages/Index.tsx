@@ -131,6 +131,14 @@ export default function Index() {
           <div className="hero-copy">
             <div className="overline"><Sparkles size={15} /> Método completo en vídeo</div>
             <h1>Tu trasero no está “feo”… está inflamado, con grasa atrapada en células específicas y sin estímulo muscular.</h1>
+            <div className="vsl-block">
+              <div className="vsl-kicker"><Play size={14} /> Mira cómo funciona la plataforma</div>
+              <video className="hero-vsl" controls playsInline preload="metadata" poster={heroImage} aria-label="Mini VSL explicando la plataforma Ivone Silva">
+                <source src="/WhatsApp Video 2026-10-01 at 02.10.29.mp4" type="video/mp4" />
+                Tu navegador no admite la reproducción de vídeo.
+              </video>
+              <p className="vsl-caption">Descubre cómo unir recetas y entrenamientos en vídeo puede cambiar tu forma de cuidar tu cuerpo.</p>
+            </div>
             <p className="hero-promise">En 15 días puedes cambiarlo de verdad.</p>
             <p className="lead">La única plataforma que combina recetas que atacan la célula de grasa localizada de los glúteos + entrenamientos en vídeo que trabajan en sinergia con esas recetas. Resultado: menos celulitis, menos estrías, menos manchas y un trasero firme y vivo de nuevo.</p>
             <div className="cta-trust"><LockKeyhole size={15} /> Acceso inmediato · Pago seguro · 7 días de garantía</div>
