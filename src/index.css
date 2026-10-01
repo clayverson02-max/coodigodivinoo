@@ -66,3 +66,32 @@ body{font-family:"Montserrat",Arial,sans-serif;font-size:16px;line-height:1.68;f
 @media(max-width:560px){body{font-size:16px}.sales-hero h1{font-size:2.3rem;line-height:1.08}.lead,.pain-section .narrow-shell>p,.truth-section .truth-grid>div>p,.section-heading>p,.deliverables p,.platform-showcase p,.average-result p,.proof-copy p,.steps-grid-new p,.final-section p{font-size:15px;line-height:1.68}.pain-section h2,.truth-section h2,.section-heading h2,.offer-section h2,.final-section h2,.coach-copy h2{font-size:2.05rem;line-height:1.12}}
 
 .cell-visual img{width:100%;height:100%;object-fit:cover}.cell-visual{border-radius:2px}.cell-visual:after{position:absolute;inset:0;background:linear-gradient(90deg,hsl(var(--ink)/.1),transparent 55%,hsl(var(--coral)/.08));content:"";pointer-events:none}
+
+/* Contraste, alternância de fundos e apresentação premium dos blocos */
+:root{--background:0 0% 100%;--paper:0 0% 100%;--muted-foreground:345 15% 25%;--muted:35 33% 95%}
+.sales-page{background:#fff;color:hsl(var(--ink))}
+.truth-section,.proof-section,.faq-section,.final-section{background:#fff}
+.pain-section,.solution-section,.steps-section-new,.coach-section{background:hsl(var(--secondary))}
+.lead,.pain-section .narrow-shell>p,.truth-section .truth-grid>div>p,.section-heading>p,.deliverables p,.platform-showcase p,.average-result p,.proof-copy p,.steps-grid-new p,.final-section p,.coach-copy>p{color:hsl(var(--muted-foreground))}
+.truth-card,.deliverables article,.steps-grid-new article,.proof-scroll figure,.faq-list{border-color:hsl(var(--ink)/.16)}
+.offer-section{background:hsl(var(--secondary));color:hsl(var(--ink));padding-block:clamp(72px,9vw,112px)}
+.offer-shell{width:min(1060px,calc(100% - 40px));padding:clamp(24px,5vw,58px);border:1px solid hsl(var(--coral)/.2);border-radius:22px;background:linear-gradient(135deg,#fff 0%,hsl(var(--secondary)) 100%);box-shadow:0 28px 80px hsl(var(--ink)/.15)}
+.offer-section h2{color:hsl(var(--ink))}
+.offer-copy>p{color:hsl(var(--muted-foreground))}
+.offer-section .price del{color:hsl(var(--muted-foreground))}
+.offer-section .price strong{color:hsl(var(--coral-deep))}
+.offer-deliverables li{color:hsl(var(--ink))}
+.offer-section .cta-trust.light{color:hsl(var(--muted-foreground))}
+.choice-card{border-color:hsl(var(--ink)/.12);background:hsl(var(--ink));box-shadow:0 16px 36px hsl(var(--ink)/.16)}
+.proof-scroll{padding:14px 8px 26px}
+.proof-scroll figure{overflow:hidden;border-radius:16px;box-shadow:0 16px 38px hsl(var(--ink)/.1);transition:transform .28s ease,box-shadow .28s ease}
+.proof-scroll figure:hover{transform:translateY(-8px) rotate(-.5deg);box-shadow:0 24px 48px hsl(var(--ink)/.18)}
+.proof-image-wrap{height:auto;aspect-ratio:4/5;background:hsl(var(--muted))}
+.proof-image-wrap img{object-fit:cover;object-position:center}
+.proof-scroll figure:nth-child(2n){animation:proof-float 6s ease-in-out infinite}
+.proof-scroll figure:nth-child(3n){animation-delay:-2s}
+@keyframes proof-float{0%,100%{transform:translateY(0)}50%{transform:translateY(-6px)}}
+.section-heading h2,.pain-section h2,.truth-section h2,.offer-section h2,.final-section h2,.coach-copy h2{color:hsl(var(--ink))}
+.pain-callout,.platform-showcase,.sales-footer{background:hsl(var(--ink))}
+@media(max-width:560px){.offer-shell{width:calc(100% - 28px);padding:22px 16px;border-radius:16px}.proof-scroll{grid-auto-columns:78%;padding-inline:3px}.proof-scroll figure:hover{transform:none}}
+@media(prefers-reduced-motion:reduce){.proof-scroll figure:nth-child(2n){animation:none}.proof-scroll figure:hover{transform:none}}
