@@ -1,4 +1,5 @@
 import { useEffect, useState } from "react";
+import { createPortal } from "react-dom";
 import {
   ArrowRight,
   Check,
@@ -18,7 +19,7 @@ import {
 import { Button } from "@/components/ui/button";
 import { CHECKOUT_URL } from "@/config/links";
 import { trackEvent } from "@/lib/tracking";
-import heroImage from "@/assets/gluteos-hero.jpg";
+const heroImage = "https://raw.githubusercontent.com/clayverson02-max/coodigodivinoo/main/Captura%20de%20Tela%202026-10-02%20a%CC%80s%2000.22.11.png";
 import platformImage from "@/assets/plataforma-balance.jpg";
 import resultOne from "@/assets/resultado-aluna-1.png.asset.json";
 import resultTwo from "@/assets/resultado-aluna-2.png.asset.json";
@@ -83,18 +84,95 @@ function PurchaseNotice() {
   );
 }
 
+function CheckoutModal({ open, onClose }: { open: boolean; onClose: () => void }) {
+  useEffect(() => {
+    if (!open) return;
+
+    const handleKeyDown = (event: KeyboardEvent) => {
+      if (event.key === "Escape") onClose();
+    };
+
+    document.body.style.overflow = "hidden";
+    window.addEventListener("keydown", handleKeyDown);
+
+    return () => {
+      document.body.style.overflow = "";
+      window.removeEventListener("keydown", handleKeyDown);
+    };
+  }, [open, onClose]);
+
+  if (!open) return null;
+
+  const modal = (
+    <div
+      className="checkout-overlay"
+      role="presentation"
+      onMouseDown={(event) => {
+        if (event.target === event.currentTarget) onClose();
+      }}
+    >
+      <div className="checkout-modal" role="dialog" aria-modal="true" aria-labelledby="checkout-modal-title">
+        <button type="button" className="checkout-close" onClick={onClose} aria-label="Cerrar oferta">
+          <X size={20} />
+        </button>
+        <span className="checkout-kicker">🔥 OFERTA ESPECIAL ACTIVADA</span>
+        <h2 id="checkout-modal-title">Tu acceso completo está a un clic de distancia</h2>
+        <p className="checkout-intro">
+          No estás comprando una receta suelta ni un entrenamiento aislado. Estás entrando a una plataforma completa, organizada y lista para ayudarte a cuidar de ti con dirección.
+        </p>
+
+        <div className="checkout-package">
+          <div className="checkout-package-title">PAQUETE COMPLETO · ACCESO VITALICIO</div>
+          <ul>
+            <li><Check /> 50 recetas en vídeo paso a paso</li>
+            <li><Check /> 100 entrenamientos en vídeo para hacer en casa</li>
+            <li><Check /> Plataforma organizada en un solo lugar</li>
+            <li><Check /> Acceso inmediato + garantía de 7 días</li>
+          </ul>
+        </div>
+
+        <div className="checkout-price-box">
+          <span>PRECIO PROMOCIONAL POR TIEMPO LIMITADO</span>
+          <del>$27,90</del>
+          <strong>$5,00</strong>
+          <small>pago único · acceso de por vida</small>
+          <p>⚡ Esta condición puede cambiar cuando termine la promoción actual.</p>
+        </div>
+
+        <a
+          className="checkout-final-cta"
+          href={CHECKOUT_URL}
+          target="_blank"
+          rel="noopener noreferrer"
+          onClick={() => {
+            void trackEvent("InitiateCheckout", { value: 5, currency: "USD", contentName: "Paquete Completo Ivone Silva" });
+            onClose();
+          }}
+        >
+          SÍ, QUIERO MI ACCESO POR $5,00 <ArrowRight size={19} />
+        </a>
+
+        <div className="checkout-trust">
+          <span><LockKeyhole size={14} /> Pago seguro por Hotmart</span>
+          <span><ShieldCheck size={14} /> 7 días de garantía</span>
+        </div>
+      </div>
+    </div>
+  );
+
+  return createPortal(modal, document.body);
+}
+
 function CheckoutButton() {
+  const [open, setOpen] = useState(false);
+
   return (
-    <Button asChild className="sales-cta">
-      <a
-        href={CHECKOUT_URL}
-        target="_blank"
-        rel="noopener noreferrer"
-        onClick={() => void trackEvent("InitiateCheckout", { value: 6.5, currency: "USD", contentName: "Plataforma Ivone Silva" })}
-      >
-        <span>QUIERO MI ACCESO POR $6,50 AHORA</span><ArrowRight size={20} />
-      </a>
-    </Button>
+    <>
+      <Button type="button" className="sales-cta" onClick={() => setOpen(true)}>
+        <span>QUIERO MI ACCESO POR $5,00 AHORA</span><ArrowRight size={20} />
+      </Button>
+      <CheckoutModal open={open} onClose={() => setOpen(false)} />
+    </>
   );
 }
 
@@ -103,7 +181,7 @@ function OfferLink({ label }: { label: string }) {
     <Button asChild className="sales-cta">
       <a
         href="#oferta"
-        onClick={() => void trackEvent("ViewContent", { value: 6.5, currency: "USD", contentName: "Oferta Plataforma Ivone Silva" })}
+        onClick={() => void trackEvent("ViewContent", { value: 5, currency: "USD", contentName: "Oferta Plataforma Ivone Silva" })}
       >
         <span>{label}</span><ArrowRight size={20} />
       </a>
@@ -283,8 +361,8 @@ export default function Index() {
 
         <section className="offer-section section-space" id="oferta">
           <div className="offer-shell">
-            <div className="offer-copy"><span className="offer-badge"><Flame size={15} /> SOLO 50 ACCESOS</span><h2>Tu momento de empezar es hoy.</h2><p>El valor normal de esta plataforma es <strong>$27,90</strong>. Pero Ivone liberó solo 50 accesos con un descuento agresivo:</p><div className="price"><del>$27,90</del><strong>$6,50</strong><span>pago único</span></div><p>Así es. Seis dólares con cincuenta. Menos que una merienda. Menos que cualquier crema que no soluciona nada.</p><ul className="offer-deliverables"><li><Check /> 50 recetas en vídeo, paso a paso</li><li><Check /> 100 entrenamientos en vídeo</li><li><Check /> Plataforma organizada para usar en casa</li><li><Check /> Acceso inmediato + garantía de 7 días</li></ul><CheckoutButton /><div className="cta-trust light"><LockKeyhole size={15} /> Compra segura · Acceso inmediato · Garantía de 7 días</div></div>
-            <div className="choice-card"><span>Tienes dos opciones ahora:</span><div><i>1</i><p>Seguir mirándote al espejo y sintiendo la misma frustración de siempre.</p></div><div className="selected-choice"><i>2</i><p>Garantizar tu acceso por <strong>$6,50</strong> y en 15–20 días ver por fin el trasero que mereces.</p></div><p className="urgency-note">Después de que se agoten los 50 cupos, el precio vuelve a la normalidad o la oferta desaparece.</p></div>
+            <div className="offer-copy"><span className="offer-badge"><Flame size={15} /> PAQUETE COMPLETO · SOLO 50 ACCESOS</span><p className="offer-package-kicker">PLATAFORMA COMPLETA · PAGO ÚNICO · ACCESO VITALICIO</p><h2>Tu momento de empezar es hoy.</h2><p>El valor normal de esta plataforma es <strong>$27,90</strong>. Pero Ivone liberó solo 50 accesos con un descuento agresivo:</p><div className="price"><del>$27,90</del><strong>$5,00</strong><span>pago único</span></div><p>Así es. Seis dólares con cincuenta. Menos que una merienda. Menos que cualquier crema que no soluciona nada.</p><ul className="offer-deliverables"><li><Check /> 50 recetas en vídeo, paso a paso</li><li><Check /> 100 entrenamientos en vídeo</li><li><Check /> Plataforma organizada para usar en casa</li><li><Check /> Acceso inmediato + garantía de 7 días</li></ul><CheckoutButton /><div className="cta-trust light"><LockKeyhole size={15} /> Compra segura · Acceso inmediato · Garantía de 7 días</div></div>
+            <div className="choice-card"><span>Tienes dos opciones ahora:</span><div><i>1</i><p>Seguir mirándote al espejo y sintiendo la misma frustración de siempre.</p></div><div className="selected-choice"><i>2</i><p>Garantizar tu acceso por <strong>$5,00</strong> y empezar a cuidar de ti con un método completo ver por fin el trasero que mereces.</p></div><p className="urgency-note">Después de que se agoten los 50 cupos, el precio vuelve a la normalidad o la oferta desaparece.</p></div>
           </div>
         </section>
 
@@ -292,7 +370,7 @@ export default function Index() {
           <div className="narrow-shell"><div className="section-heading centered"><span className="section-number">PREGUNTAS FRECUENTES</span><h2>Resolvemos tus dudas.</h2></div><div className="faq-list">{faqs.map(([question, answer]) => <details key={question}><summary>{question}<ChevronDown /></summary><p>{answer}</p></details>)}</div></div>
         </section>
 
-        <section className="final-section section-space"><div className="narrow-shell centered"><span className="section-number">ÚLTIMA OPORTUNIDAD</span><h2>Ya has pasado demasiado tiempo sintiéndote menos de lo que eres.</h2><p>Ya invertiste dinero y energía en cosas que no funcionan.</p><p>Ahora la solución está frente a ti.<br /><strong>Completa. Organizada. En vídeo.</strong><br />Y por un precio que casi no existe.</p><h3>No dejes pasar esta oportunidad.<br />Haz clic ahora y empieza hoy.</h3><OfferLink label="QUIERO VER LA OFERTA DE $6,50" /></div></section>
+        <section className="final-section section-space"><div className="narrow-shell centered"><span className="section-number">ÚLTIMA OPORTUNIDAD</span><h2>Ya has pasado demasiado tiempo sintiéndote menos de lo que eres.</h2><p>Ya invertiste dinero y energía en cosas que no funcionan.</p><p>Ahora la solución está frente a ti.<br /><strong>Completa. Organizada. En vídeo.</strong><br />Y por un precio que casi no existe.</p><h3>No dejes pasar esta oportunidad.<br />Haz clic ahora y empieza hoy.</h3><OfferLink label="QUIERO VER EL PAQUETE COMPLETO POR $5,00" /></div></section>
       </main>
 
       <footer className="sales-footer"><div className="page-shell"><div className="wordmark"><span>IVONE</span> SILVA</div><p>© 2026 Ivone Silva. Todos los derechos reservados.</p><small>Los resultados pueden variar de una persona a otra según la constancia y las condiciones individuales.</small></div></footer>
