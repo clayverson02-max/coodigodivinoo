@@ -210,7 +210,7 @@ export default function Index() {
             <h1>Tu trasero no está “feo”… está inflamado, con grasa atrapada en células específicas y sin estímulo muscular.</h1>
             <div className="vsl-block">
               <div className="vsl-kicker"><Play size={14} /> Mira cómo funciona la plataforma</div>
-              <video className="hero-vsl" controls playsInline preload="metadata" poster={heroImage} aria-label="Mini VSL explicando la plataforma Ivone Silva">
+              <video className="hero-vsl" controls playsInline preload="none" poster={heroImage} aria-label="Mini VSL explicando la plataforma Ivone Silva">
                 <source src="/videos/vsl-ivone.mp4" type="video/mp4" />
                 Tu navegador no admite la reproducción de vídeo.
               </video>
@@ -253,7 +253,7 @@ export default function Index() {
               <p>Sin atacar esas células + estimular el músculo en el orden correcto, el resultado tarda meses… o nunca llega.</p>
             </div>
             <div className="truth-card">
-              <div className="cell-visual"><img src="/celulas-grasa.png" alt="Ilustración de células de grasa localizadas" width="616" height="376" loading="lazy" /></div>
+              <div className="cell-visual"><img src="/celulas-grasa.png" alt="Ilustración de células de grasa localizadas" width="616" height="376" loading="lazy" decoding="async" /></div>
               <h3>Receta + estímulo muscular</h3>
               <p>Dos acciones trabajando en sinergia, en la secuencia correcta.</p>
               <div className="truth-arrow"><ArrowRight /><strong>Célula activada</strong><ArrowRight /><strong>Músculo estimulado</strong></div>
@@ -269,7 +269,7 @@ export default function Index() {
               <article><div className="feature-icon"><Leaf /></div><span>01</span><h3>50 recetas en vídeo</h3><p>Paso a paso, actúan directamente en las células de grasa localizada de los glúteos. No son “recetitas para adelgazar”. Son fórmulas con ingredientes de tu cocina para facilitar la eliminación de esa grasa específica.</p></article>
               <article><div className="feature-icon"><Dumbbell /></div><span>02</span><h3>100 entrenamientos en vídeo</h3><p>Organizados en una secuencia inteligente. Mientras la receta ayuda a vaciar la célula de grasa, el ejercicio estimula el músculo para ocupar ese espacio, dejando el trasero más firme, redondo y “vivo”.</p></article>
             </div>
-            <div className="platform-showcase"><img src={platformImage} alt="Plataforma con recetas y entrenamientos en vídeo" width={1408} height={1008} loading="lazy" /><div><span className="section-number">TODO EN UN SOLO LUGAR</span><h3>Todo organizado.<br />Todo en vídeo.</h3><p>Todo para hacerlo en casa, sin equipamiento, sin gimnasio, sin complicaciones.</p><ul><li><Play /> Clases paso a paso</li><li><Heart /> Rutina pensada para mujeres</li><li><ShieldCheck /> Acceso desde el primer día</li></ul></div></div>
+            <div className="platform-showcase"><img src={platformImage} alt="Plataforma con recetas y entrenamientos en vídeo" width={1408} height={1008} loading="lazy" decoding="async" /><div><span className="section-number">TODO EN UN SOLO LUGAR</span><h3>Todo organizado.<br />Todo en vídeo.</h3><p>Todo para hacerlo en casa, sin equipamiento, sin gimnasio, sin complicaciones.</p><ul><li><Play /> Clases paso a paso</li><li><Heart /> Rutina pensada para mujeres</li><li><ShieldCheck /> Acceso desde el primer día</li></ul></div></div>
             <div className="average-result"><strong>El resultado medio de las mujeres que siguieron correctamente la plataforma:</strong><p>En 15 días ya se podía ver una diferencia real. En 20 días el trasero estaba visiblemente más firme, con menos celulitis, menos estrías aparentes y sin esa grasa que “no sale de ninguna manera”.</p><span>Esto no es una promesa vacía. Es lo que ocurre cuando atacas la causa correcta, en el orden correcto.</span></div>
             <div className="middle-cta"><OfferLink label="VER LA OFERTA COMPLETA" /></div>
           </div>
@@ -279,7 +279,7 @@ export default function Index() {
         <section className="coach-section section-space" id="ivone">
           <div className="page-shell coach-grid">
             <div className="coach-media">
-              <img src="/ivone-coach-actual.png" alt="Ivone Silva, especialista en entrenamiento y recetas naturales" width="700" height="933" loading="lazy" />
+              <img src="/ivone-coach-actual.png" alt="Ivone Silva, especialista en entrenamiento y recetas naturales" width="700" height="933" loading="lazy" decoding="async" />
               <span>IVONE SILVA · MÉTODO COMPLETO</span>
             </div>
             <div className="coach-copy">
@@ -300,7 +300,7 @@ export default function Index() {
         <section className="proof-section section-space" id="resultados">
           <div className="page-shell">
             <div className="section-heading centered"><span className="section-number">04 — RESULTADOS REALES</span><h2>Ellas dejaron de probar métodos aislados…</h2><p>Y utilizaron la plataforma completa. Desliza para ver registros compartidos por alumnas.</p></div>
-            <div className="proof-scroll" aria-label="Resultados de alumnas en desplazamiento automático"><div className="proof-track">{[...proofImages, ...proofImages].map((image, i) => <figure key={`${image.src}-${i}`}><div className="proof-image-wrap"><img src={image.src} alt={image.alt} loading="lazy" /><span>{image.label}</span></div><figcaption><div>{Array.from({ length: 5 }).map((_, star) => <Star key={star} size={14} fill="currentColor" />)}</div><strong>Registro de alumna {String((i % proofImages.length) + 1).padStart(2, "0")}</strong></figcaption></figure>)}</div></div>
+            <div className="proof-scroll" aria-label="Resultados de alumnas en desplazamiento automático"><div className="proof-track">{[...proofImages, ...proofImages].map((image, i) => <figure key={`${image.src}-${i}`}><div className="proof-image-wrap"><img src={image.src} alt={image.alt} loading="lazy" decoding="async" /><span>{image.label}</span></div><figcaption><div>{Array.from({ length: 5 }).map((_, star) => <Star key={star} size={14} fill="currentColor" />)}</div><strong>Registro de alumna {String((i % proofImages.length) + 1).padStart(2, "0")}</strong></figcaption></figure>)}</div></div>
                         <div className="proof-copy"><p>Estas mujeres no hicieron un milagro. Solo dejaron de probar métodos aislados y utilizaron la plataforma completa.</p><p>Volvieron a mirarse al espejo y sonreír. Volvieron a usar shorts. Volvieron a sentirse atractivas.</p><strong>Y tú puedes ser la próxima.</strong></div>
           </div>
         </section>
@@ -347,7 +347,7 @@ export default function Index() {
         <section className="desire-section section-space">
           <div className="page-shell desire-grid">
             <div className="desire-media">
-              <img src="/autoestima-feminina.png" alt="Mujer midiendo su cuerpo y visualizando su transformación" width="602" height="604" loading="lazy" />
+              <img src="/autoestima-feminina.png" alt="Mujer midiendo su cuerpo y visualizando su transformación" width="602" height="604" loading="lazy" decoding="async" />
             </div>
             <div className="desire-copy">
               <span className="section-number">VUELVE A SENTIRTE SEGURA</span>
