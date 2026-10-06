@@ -1,4 +1,4 @@
-import { useEffect, useState } from "react";
+import { useEffect, useRef, useState } from "react";
 import { createPortal } from "react-dom";
 import {
   ArrowRight,
@@ -81,6 +81,53 @@ function PurchaseNotice() {
       <div><strong>{current[0]} de {current[1]}</strong><span>acaba de asegurar su acceso</span></div>
       <button type="button" onClick={() => setVisible(false)} aria-label="Cerrar aviso"><X size={15} /></button>
     </aside>
+  );
+}
+
+function ResultVideo({ src, label }: { src: string; label: string }) {
+  const videoRef = useRef<HTMLVideoElement | null>(null);
+  const [isInView, setIsInView] = useState(false);
+
+  useEffect(() => {
+    const video = videoRef.current;
+    if (!video) return;
+
+    if (!("IntersectionObserver" in window)) {
+      setIsInView(true);
+      return;
+    }
+
+    const observer = new IntersectionObserver(([entry]) => {
+      const reducedMotion = window.matchMedia("(prefers-reduced-motion: reduce)").matches;
+      const shouldPlay = Boolean(entry?.isIntersecting && entry.intersectionRatio >= 0.45 && !reducedMotion);
+      setIsInView(shouldPlay);
+
+      if (shouldPlay) {
+        void video.play().catch(() => undefined);
+      } else {
+        video.pause();
+      }
+    }, { threshold: [0, 0.45, 0.75], rootMargin: "80px" });
+
+    observer.observe(video);
+    return () => {
+      observer.disconnect();
+      video.pause();
+    };
+  }, []);
+
+  return (
+    <video
+      ref={videoRef}
+      src={src}
+      autoPlay={isInView}
+      muted
+      loop
+      playsInline
+      preload={isInView ? "auto" : "none"}
+      controls
+      aria-label={label}
+    />
   );
 }
 
@@ -322,7 +369,7 @@ export default function Index() {
               ].map(([src, label]) => (
                 <article className="result-video-card" key={src}>
                   <div className="result-video-frame">
-                    <video src={src} playsInline preload="none" controls aria-label={label} />
+                    <ResultVideo src={src} label={label} />
                     <span>{label}</span>
                   </div>
                 </article>
