@@ -190,12 +190,11 @@ function OfferLink({ label }: { label: string }) {
 }
 
 export default function Index() {
-  const today = new Intl.DateTimeFormat("es", { day: "2-digit", month: "long" }).format(new Date());
   return (
     <div className="sales-page">
       <div className="today-bar">
         <Clock3 size={16} />
-        <strong>Oferta disponible solo hoy, {today}</strong>
+        <strong>Oferta disponible solo hoy</strong>
         <span>por tiempo limitado</span>
       </div>
 
@@ -323,7 +322,7 @@ export default function Index() {
               ].map(([src, label]) => (
                 <article className="result-video-card" key={src}>
                   <div className="result-video-frame">
-                    <video src={src} autoPlay muted loop playsInline preload="metadata" controls aria-label={label} />
+                    <video src={src} playsInline preload="none" controls aria-label={label} />
                     <span>{label}</span>
                   </div>
                 </article>
