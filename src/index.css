@@ -157,3 +157,13 @@ a[href*="lovable.dev"],iframe[src*="lovable.dev"],div[style*="Edit with Lovable"
   .hero-stamp span{font-size:12px}
   .checkout-price-box small{font-size:12px}
 }
+
+@media(max-width:560px){
+  .today-bar{flex-wrap:wrap;min-height:44px;gap:5px;padding:8px 10px;font-size:10px}
+  .today-bar span{display:inline!important;color:#fff}
+  .purchase-notice{right:10px;bottom:10px;width:min(260px,calc(100% - 20px));gap:8px;padding:8px 10px}
+  .notice-check{width:28px;height:28px}
+  .purchase-notice strong{font-size:11px}
+  .purchase-notice span{font-size:10px}
+  .purchase-notice button{display:grid;width:20px;height:20px;place-items:center;flex:none;padding:0}
+}
